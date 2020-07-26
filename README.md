@@ -1,7 +1,7 @@
 DevOps-Install
 ==============
 
-This role will install all the necessary software to an Ubuntu DevOps machine.
+This role will install all the necessary software to an Ubuntu DevOps machine to work with Visual Studio Code.
 
 Requirements
 ------------
@@ -50,4 +50,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+João Oliveira
