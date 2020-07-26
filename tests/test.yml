@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - DevOps-Install2
+    - DevOps-Install
