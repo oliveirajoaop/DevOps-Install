@@ -1,0 +1,7 @@
+---
+- name: Install DevOps
+  connection: network_cli
+  gather_facts: true
+  hosts: all
+  tasks: 
+    
