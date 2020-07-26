@@ -1,12 +1,27 @@
 DevOps-Install
 ==============
 
-A brief description of the role goes here.
+This role will install all the necessary software to an Ubuntu DevOps machine.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A running Ubunto with ssh active and running, you keys added to authorized_keys, access to sudo without password.
+
+Type visudo and change as below
+
+    ...
+    # Members of the admin group may gain root privileges
+    %admin ALL=(ALL) ALL
+
+    # Allow members of group sudo to execute any command
+    %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+
+    # See sudoers(5) for more information on "#include" directives:
+    ...
+
+
+
 
 Role Variables
 --------------
