@@ -1,0 +1,46 @@
+---
+# tasks file for jenkins-role
+- name: Install required packages
+  apt:
+    pkg:
+    - sudo
+    - gnupg2
+    - wget
+    - python3
+    - openjdk-8-jdk
+- name: add Jenkins apt-key
+  apt_key: 
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+    validate_certs: yes 
+  become: yes
+  become_method: sudo
+- name: add Jenkins apt repository
+  apt_repository: 
+    repo: 'deb https://pkg.jenkins.io/debian-stable binary/' 
+    state: present 
+    filename: jenkins 
+    update_cache: yes
+    validate_certs: yes
+- name: install Jenkins
+  apt: 
+    name: jenkins
+    state: present
+    update_cache: yes
+- name: Make sure Jenkins is running
+  systemd:
+    state: started
+    enabled: yes
+    name: jenkins
+- import_tasks: docker_ubuntu.yml
+- name: Wait until /var/lib/jenkins/secrets/initialAdminPassword exists
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+    state: present
+- name: Get init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout

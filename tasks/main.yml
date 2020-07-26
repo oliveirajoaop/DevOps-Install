@@ -1,2 +1,7 @@
 ---
 # tasks file for DevOps-Install
+- import_tasks: centos.yml
+  when: ansible_distribution == "CentOS"
+
+- import_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"

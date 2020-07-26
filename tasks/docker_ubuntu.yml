@@ -1,0 +1,24 @@
+---
+- name: Install required packages
+  apt:
+    pkg:
+    - curl
+    - software-properties-common
+- name: install docker
+  apt: 
+    name: docker.io
+    state: present
+- name: ensure group "docker" exists
+  group:
+    name: docker
+    state: present
+- name: add user jenkins to group docker
+  user: 
+    name: jenkins
+    groups: docker
+    append: yes
+- name: make sure docker is running
+  systemd:
+    name: docker
+    state: started
+    enabled: yes

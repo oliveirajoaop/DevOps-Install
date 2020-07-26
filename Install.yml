@@ -1,6 +1,12 @@
 ---
-- name: Install DevOps
-  connection: network_cli
+- hosts: [hosts]
   gather_facts: true
-  hosts: all
-  tasks:
+  remote_user: root
+  become: true
+  pre_tasks:
+    - name: installing python
+      package:
+        name: python3
+        state: present 
+  roles:
+    - role: ./

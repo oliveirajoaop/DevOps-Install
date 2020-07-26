@@ -1,0 +1,71 @@
+---
+# tasks file for jenkins-role
+- name: Download jenkins repo
+  get_url:
+    url:  https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo 
+    mode: '0440'
+- name: import gpg key
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+- name: Install jenkins packages
+  yum:
+    name:
+      - initscripts
+      - net-tools
+      - firewalld
+      - vim
+      - jenkins
+      - java-1.8.0-openjdk-devel
+      - git
+      - wget
+      - curl
+      - tree
+    state: present
+- name: Make sure jenkins is running
+  systemd:
+    state: started
+    enabled: yes
+    name: jenkins
+- name: Make sure firewalld is running
+  systemd:
+    state: started
+    enabled: yes
+    name: firewalld
+- name: enable https
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  notify: reload firewalld
+- name: enable http
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify: reload firewalld
+- name: enable jenkins port
+  firewalld:
+    port: 8080/tcp
+    permanent: yes
+    state: enabled
+  notify: reload firewalld
+- name: enable tools ssh
+  firewalld:
+    port: 22/tcp
+    permanent: yes
+    state: enabled
+  notify: reload firewalld
+- import_tasks: docker_centos.yml
+- name: Wait until /var/lib/jenkins/secrets/initialAdminPassword exists
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+    state: present
+- name: Get init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout
