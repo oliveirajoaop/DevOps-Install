@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: targets
+  remote_user: oliveirajoaop
   roles:
     - DevOps-Install

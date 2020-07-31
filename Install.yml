@@ -1,5 +1,5 @@
 ---
-- hosts: [hosts]
+- hosts: [targets]
   gather_facts: true
   remote_user: root
   become: true

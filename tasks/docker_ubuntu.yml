@@ -12,9 +12,9 @@
   group:
     name: docker
     state: present
-- name: add user jenkins to group docker
+- name: add user oliveirajoaop to group docker
   user: 
-    name: jenkins
+    name: oliveirajoaop
     groups: docker
     append: yes
 - name: make sure docker is running
